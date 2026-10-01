@@ -56,7 +56,7 @@ function factory({ initial, ...overrides } = {}) {
     encryptFn: (value) => `encrypted:${value}`,
     decryptFn: (value) => value?.replace(/^encrypted:/, ''),
     validateHostFn: vi.fn().mockResolvedValue(null),
-    getConnectionPolicyFn: vi.fn().mockResolvedValue({ allowPrivateHosts: false }),
+    getConnectionPolicyFn: vi.fn().mockResolvedValue({ allowPrivateHosts: true }),
     fetchFn: vi.fn(),
     getCodexAccessFn: vi.fn().mockResolvedValue({ accessToken: 'codex-access', accountId: 'acct_123' }),
     getCodexStatusFn: vi.fn().mockResolvedValue({ connected: true, state: 'connected' }),
@@ -174,7 +174,7 @@ describe('configuration persistence', () => {
 
   it('retains existing private-host policy validation for API-key URLs', async () => {
     const validateHostFn = vi.fn().mockResolvedValue('Host cannot be a private or reserved IP address');
-    const getConnectionPolicyFn = vi.fn().mockResolvedValue({ allowPrivateHosts: false });
+    const getConnectionPolicyFn = vi.fn().mockResolvedValue({ allowPrivateHosts: true });
     const { provider } = factory({ validateHostFn, getConnectionPolicyFn });
 
     await expect(provider.saveAiConfig({
@@ -189,7 +189,7 @@ describe('configuration persistence', () => {
 
   it('does not revalidate the inactive API-key URL when switching to ChatGPT', async () => {
     const validateHostFn = vi.fn().mockResolvedValue('Host cannot be a private or reserved IP address');
-    const getConnectionPolicyFn = vi.fn().mockResolvedValue({ allowPrivateHosts: false });
+    const getConnectionPolicyFn = vi.fn().mockResolvedValue({ allowPrivateHosts: true });
     const { provider } = factory({ validateHostFn, getConnectionPolicyFn });
 
     await expect(provider.saveAiConfig({
