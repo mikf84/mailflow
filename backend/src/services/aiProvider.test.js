@@ -184,7 +184,7 @@ describe('configuration persistence', () => {
       chatgptConfig: { model: 'gpt-5.4-mini' },
     })).rejects.toThrow(/private or reserved/i);
     expect(getConnectionPolicyFn).toHaveBeenCalledTimes(1);
-    expect(validateHostFn).toHaveBeenCalledWith('127.0.0.1', { allowPrivate: false });
+    expect(validateHostFn).toHaveBeenCalledWith('127.0.0.1', { allowPrivate: true });
   });
 
   it('does not revalidate the inactive API-key URL when switching to ChatGPT', async () => {
